@@ -1,5 +1,7 @@
 # Festival-Finder-mcp
 
+[![smithery badge](https://smithery.ai/badge/@JunoJunHyun/festival-finder-mcp)](https://smithery.ai/server/@JunoJunHyun/festival-finder-mcp)
+
 # Festival Finder (페스티벌 파인더)
 
 범용 AI 에이전트 '페스티벌 파인더'입니다. 핵심 로직과 플랫폼별 어댑터를 분리하여 카카오톡, 일반 웹사이트 등 다양한 플랫폼에 연결할 수 있도록 설계되었습니다. KOPIS(공연예술통합전산망) API를 사용하여 전국의 공연 및 축제 정보를 제공합니다.
@@ -20,7 +22,7 @@
 -   각 플랫폼의 고유한 요청/응답 형식을 처리하고, 핵심 엔진과 통신합니다.
 
 -   **`kakao_server.py`**: **카카오 PlayMCP**용 어댑터 서버입니다.
--   **`web_server.py`**: **일반 웹사이트나 앱**을 위한 범용 API 어댑터 서버입니다.
+-   **`web_server.py`**: **일반 웹사이트나 앱**을 위한 범용 API 어댑터 서버입니다. 
 
 ---
 
@@ -30,6 +32,14 @@
     ```bash
     pip install -r requirements.txt
     ```
+
+### Installing via Smithery
+
+To install festival-finder-mcp automatically via [Smithery](https://smithery.ai/server/@JunoJunHyun/festival-finder-mcp):
+
+```bash
+npx -y @smithery/cli install @JunoJunHyun/festival-finder-mcp
+```
 
 2.  **KOPIS API 키 설정**
     `core_logic.py` 파일을 열어 `KOPIS_API_KEY` 변수에 발급받은 본인의 API 키를 입력하세요.
