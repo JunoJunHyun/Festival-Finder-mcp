@@ -1,7 +1,13 @@
+import os
+from dotenv import load_dotenv
 import requests
 import xml.etree.ElementTree as ET
 
-KOPIS_API_KEY = "YOUR_KOPIS_API_KEY" # 🚨 키 입력
+load_dotenv() # .env 파일에서 환경 변수를 불러옴
+
+# 이제 코드에서 직접 키를 쓰는 대신, 환경 변수에서 불러옵니다.
+KOPIS_API_KEY = os.getenv("KOPIS_API_KEY") 
+
 BASE_URL = "http://www.kopis.or.kr/openApi/restful"
 
 def get_performance_list(stdate, eddate, **kwargs):
