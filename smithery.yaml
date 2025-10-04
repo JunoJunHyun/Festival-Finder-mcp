@@ -1,0 +1,33 @@
+specVersion: v1
+description: "KOPIS API를 사용하여 공연 및 축제 정보를 제공하는 Festival Finder MCP입니다."
+
+# 스미더리 서버에서 이 MCP를 실행하는 명령어
+run: pip install -r requirements.txt && python kakao_server.py
+
+# 이 MCP가 가진 기능(Tool) 목록
+tools:
+  - name: get_performance_list
+    description: "기간별, 조건별 공연 목록을 조회합니다."
+    props:
+      stdate: { type: "string", description: "공연 시작일 (형식: YYYYMMDD)" }
+      eddate: { type: "string", description: "공연 종료일 (형식: YYYYMMDD)" }
+      cpage: { type: "integer", description: "현재 페이지 번호", default: 1 }
+      rows: { type: "integer", description: "페이지 당 목록 수", default: 10 }
+      shprfnm: { type: "string", description: "조회할 공연명", optional: true }
+      prfstate: { type: "string", description: "공연 상태 코드 ('01':공연예정, '02':공연중, '03':공연완료)", optional: true }
+      signgucode: { type: "string", description: "지역(시도) 코드 (예: '11'은 서울)", optional: true }
+
+  - name: get_performance_detail
+    description: "특정 공연의 상세 정보를 조회합니다."
+    props:
+      performance_id: { type: "string", description: "조회할 공연의 고유 ID" }
+      
+  - name: get_festival_list
+    description: "기간별, 조건별 축제 목록을 조회합니다."
+    props:
+      stdate: { type: "string", description: "축제 시작일 (형식: YYYYMMDD)" }
+      eddate: { type: "string", description: "축제 종료일 (형식: YYYYMMDD)" }
+      cpage: { type: "integer", description: "현재 페이지 번호", default: 1 }
+      rows: { type: "integer", description: "페이지 당 목록 수", default: 10 }
+      shprfnm: { type: "string", description: "조회할 축제명", optional: true }
+      signgucode: { type: "string", description: "지역(시도) 코드 (예: '11'은 서울)", optional: true }
