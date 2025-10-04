@@ -1,0 +1,20 @@
+# Python 빌드 시스템에 대한 표준 설정
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# 프로젝트 정보 라벨
+[project]
+name = "festival-finder-mcp"
+version = "0.1.0"
+authors = [
+  { name="JunoJunHyun", email="author@example.com" },
+]
+description = "KOPIS API를 사용하여 공연 및 축제 정보를 제공하는 Festival Finder MCP입니다."
+requires-python = ">=3.8"
+dependencies = [
+    "flask",
+    "requests",
+    "python-dotenv",
+    "gunicorn",
+]
