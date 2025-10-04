@@ -1,23 +1,21 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # CORS 라이브러리 import
 import core_logic
 import json
 
 app = Flask(__name__)
+CORS(app)  # <-- app에 CORS 설정을 적용합니다. 이 한 줄이 핵심입니다!
 
-# 기존의 상태 확인 코드는 이제 필요 없으므로 삭제하거나 그대로 두어도 괜찮습니다.
-# @app.route('/', methods=['GET'])
-# def health_check():
-#    return jsonify({"status": "ok", "message": "Server is running"})
-
-# 👇 [가장 중요] 경로를 '/kakao'에서 '/'로 변경하고, POST와 GET을 모두 허용
 @app.route('/', methods=['GET', 'POST'])
 def adapter():
-    # GET 요청은 상태 확인용으로 사용
     if request.method == 'GET':
         return jsonify({"status": "ok", "message": "Server is ready for POST requests"})
 
-    # POST 요청은 기존 로직 그대로 사용
-    req_data = request.json
+    # POST 요청 처리
+    req_data = request.get_json(silent=True) # 더 안전한 방법으로 JSON 데이터를 읽습니다.
+    if not req_data:
+        return jsonify({"error": "Invalid or missing JSON body"}), 400
+
     tool_name = req_data.get("params", {}).get("name")
     arguments = req_data.get("params", {}).get("arguments", {})
     
