@@ -4,6 +4,11 @@ import json
 
 app = Flask(__name__)
 
+# 👇 [추가] 서버 상태 확인을 위한 코드
+@app.route('/', methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok"})
+
 @app.route('/kakao', methods=['POST'])
 def kakao_adapter():
     req_data = request.json
