@@ -1,15 +1,9 @@
 specVersion: v1
 description: "KOPIS API를 사용하여 공연 및 축제 정보를 제공하는 Festival Finder MCP입니다."
 
-# ❗ 이 프로젝트의 언어가 'python'임을 명시합니다.
-runtime: python
+# runtime과 startCommand는 Dockerfile이 역할을 대신하므로 삭제합니다.
 
-# ❗ 'run' 대신 'startCommand'를 사용하고, 설치와 실행 명령을 분리합니다.
-startCommand:
-  - command: "pip install -r requirements.txt"
-  - command: "gunicorn --bind 0.0.0.0:$PORT kakao_server:app"
-
-# 이 MCP가 가진 기능(Tool) 목록 (이전과 동일)
+# 이 MCP가 가진 기능(Tool) 목록 (이 부분은 그대로 둡니다)
 tools:
   - name: get_performance_list
     description: "기간별, 조건별 공연 목록을 조회합니다."
