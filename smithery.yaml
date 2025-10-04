@@ -1,9 +1,11 @@
 specVersion: v1
 description: "KOPIS API를 사용하여 공연 및 축제 정보를 제공하는 Festival Finder MCP입니다."
 
-# runtime과 startCommand는 Dockerfile이 역할을 대신하므로 삭제합니다.
+# ❗ 'Dockerfile'을 사용하라고 명시적으로 알려주는 부분
+build:
+  type: docker
 
-# 이 MCP가 가진 기능(Tool) 목록 (이 부분은 그대로 둡니다)
+# Tool 목록 (이전과 동일)
 tools:
   - name: get_performance_list
     description: "기간별, 조건별 공연 목록을 조회합니다."
