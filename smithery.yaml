@@ -4,6 +4,7 @@ description: "KOPIS API를 사용하여 공연 및 축제 정보를 제공하는
 # ❗ 'Dockerfile'을 사용하라고 명시적으로 알려주는 부분
 build:
   type: docker
+  runtime: python  
   startCommand: "gunicorn --bind 0.0.0.0:$PORT kakao_server:app"
 
 # Tool 목록 (이전과 동일)
