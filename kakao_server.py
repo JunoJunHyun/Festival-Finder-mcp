@@ -84,15 +84,23 @@ def adapter():
             }
             return jsonify({"jsonrpc":"2.0","id":rpc_id,"result":result}), 200
 
-        # c) tools/call
+        # c) tools/call (툴 실행)
         if method in ("tools/call","tools.call","callTool"):
             name = params.get("name") or params.get("tool")
             args = params.get("arguments") or params.get("args") or {}
             try:
                 if name == "get_performance_list":
                     data = core_logic.get_performance_list(**args)
-                    text = render_md(data)
+                    text = json.dumps(data, ensure_ascii=False)
                     result = {"content":[{"type":"text","text":text}], "isError": False}
+                
+                # 👇 [추가] '축제 찾기' 레시피를 여기에 추가합니다.
+                elif name == "get_festival_list":
+                    # 우선 '공연 찾기' 기능으로 축제 정보를 가져옵니다. (나중에 전용 함수로 바꿀 수 있습니다)
+                    data = core_logic.get_performance_list(**args) 
+                    text = json.dumps(data, ensure_ascii=False)
+                    result = {"content":[{"type":"text","text":text}], "isError": False}
+
                 else:
                     result = {"content":[{"type":"text","text":f"unknown tool: {name}"}], "isError": True}
             except Exception as e:
