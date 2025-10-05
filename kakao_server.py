@@ -57,26 +57,56 @@ def adapter():
             }
             return jsonify({"jsonrpc":"2.0","id":rpc_id,"result":result}), 200
 
-        # b) tools/list  (지금은 한 개만 노출)
+
+        # b) tools/list (툴 목록/스키마)
         if method in ("tools/list","tools.list","listTools"):
             result = {
                 "tools": [
+                    # Tool 1: get_performance_list
                     {
                         "name": "get_performance_list",
-                        "description": "기간/지역별 공연 목록 조회(KOPIS)",
+                        "description": "기간별, 조건별 공연 목록을 조회합니다.",
                         "inputSchema": {
                             "type":"object",
                             "properties":{
-                                "stdate":{"type":"string","description":"시작일 YYYYMMDD"},
-                                "eddate":{"type":"string","description":"종료일 YYYYMMDD"},
-                                "signgucode":{"type":"string","description":"지역코드(예: '11'=서울)","nullable":True},
-                                "cpage":{"type":"integer","default":1},
-                                "rows":{"type":"integer","default":10},
-                                "shprfnm":{"type":"string"},
-                                "prfstate":{"type":"string"}
+                                "stdate":{"type":"string","description":"공연 시작일 (형식: YYYYMMDD)"},
+                                "eddate":{"type":"string","description":"공연 종료일 (형식: YYYYMMDD)"},
+                                "cpage": {"type": "integer", "description": "현재 페이지 번호", "default": 1},
+                                "rows": {"type": "integer", "description": "페이지 당 목록 수", "default": 10},
+                                "shprfnm": {"type": "string", "description": "조회할 공연명", "optional": True},
+                                "prfstate": {"type": "string", "description": "공연 상태 코드 ('01':공연예정, '02':공연중, '03':공연완료)", "optional": True},
+                                "signgucode":{"type":"string","description":"지역(시도) 코드 (예: '11'은 서울)", "optional": True}
                             },
-                            "required":["stdate","eddate"],
-                            "additionalProperties": False
+                            "required":["stdate","eddate"]
+                        }
+                    },
+                    # Tool 2: get_performance_detail
+                    {
+                        "name": "get_performance_detail",
+                        "description": "특정 공연의 상세 정보를 조회합니다.",
+                        "inputSchema": {
+                            "type": "object",
+                            "properties": {
+                                "performance_id": {"type": "string", "description": "조회할 공연의 고유 ID"}
+                            },
+                            "required": ["performance_id"]
+                        }
+                    },
+                    # Tool 3: get_festival_list
+                    {
+                        "name": "get_festival_list",
+                        "description": "기간별, 조건별 축제 목록을 조회합니다.",
+                        "inputSchema": {
+                            "type": "object",
+                            "properties": {
+                                "stdate": {"type": "string", "description": "축제 시작일 (형식: YYYYMMDD)"},
+                                "eddate": {"type": "string", "description": "축제 종료일 (형식: YYYYMMDD)"},
+                                "cpage": {"type": "integer", "description": "현재 페이지 번호", "default": 1},
+                                "rows": {"type": "integer", "description": "페이지 당 목록 수", "default": 10},
+                                "shprfnm": {"type": "string", "description": "조회할 축제명", "optional": True},
+                                "signgucode": {"type": "string", "description": "지역(시도) 코드 (예: '11'은 서울)", "optional": True}
+                            },
+                            "required": ["stdate", "eddate"]
                         }
                     }
                 ],
@@ -94,15 +124,19 @@ def adapter():
                     text = json.dumps(data, ensure_ascii=False)
                     result = {"content":[{"type":"text","text":text}], "isError": False}
                 
-                # 👇 [추가] '축제 찾기' 레시피를 여기에 추가합니다.
                 elif name == "get_festival_list":
-                    # 우선 '공연 찾기' 기능으로 축제 정보를 가져옵니다. (나중에 전용 함수로 바꿀 수 있습니다)
-                    data = core_logic.get_performance_list(**args) 
+                    data = core_logic.get_festival_list(**args) 
+                    text = json.dumps(data, ensure_ascii=False)
+                    result = {"content":[{"type":"text","text":text}], "isError": False}
+
+                elif name == "get_performance_detail":
+                    data = core_logic.get_performance_detail(**args)
                     text = json.dumps(data, ensure_ascii=False)
                     result = {"content":[{"type":"text","text":text}], "isError": False}
 
                 else:
                     result = {"content":[{"type":"text","text":f"unknown tool: {name}"}], "isError": True}
+            
             except Exception as e:
                 result = {"content":[{"type":"text","text":f"server error: {e}"}], "isError": True}
             return jsonify({"jsonrpc":"2.0","id":rpc_id,"result":result}), 200
