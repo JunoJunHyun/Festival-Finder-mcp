@@ -1,5 +1,4 @@
-flask
-requests
+fastmcp
 python-dotenv
-gunicorn
-flask-cors
+requests
+uvicorn
