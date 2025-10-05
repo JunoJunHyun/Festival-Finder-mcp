@@ -1,18 +1,18 @@
 # smithery.yaml
 
-# 1. 런타임은 'docker'가 아닌 'container'로 지정해야 합니다.
+# 1. 런타임은 'container'로 지정
 runtime: "container"
 
-# 2. 빌드 정보에는 Dockerfile의 경로를 지정합니다.
+# 2. 빌드 정보에는 Dockerfile의 경로를 지정
 build:
   dockerfile: "Dockerfile"
   dockerBuildPath: "."
 
-# 3. 시작 명령어의 타입을 'http'로 명시해야 합니다.
+# 3. 시작 명령어의 타입을 'http'로 명시
 startCommand:
   type: "http"
 
-# 4. Tool 목록은 그대로 유지합니다.
+# 4. Tool 목록에서 모든 주석(#)을 제거하여 3개의 도구를 모두 활성화
 tools:
   - name: get_performance_list
     description: "기간별, 조건별 공연 목록을 조회합니다."
@@ -25,17 +25,17 @@ tools:
       prfstate: { type: "string", description: "공연 상태 코드 ('01':공연예정, '02':공연중, '03':공연완료)", optional: true }
       signgucode: { type: "string", description: "지역(시도) 코드 (예: '11'은 서울)", optional: true }
 
-  # - name: get_performance_detail
-  #   description: "특정 공연의 상세 정보를 조회합니다."
-  #   props:
-  #     performance_id: { type: "string", description: "조회할 공연의 고유 ID" }
+  - name: get_performance_detail
+    description: "특정 공연의 상세 정보를 조회합니다."
+    props:
+      performance_id: { type: "string", description: "조회할 공연의 고유 ID" }
       
-  # - name: get_festival_list
-  #   description: "기간별, 조건별 축제 목록을 조회합니다."
-  #   props:
-  #     stdate: { type: "string", description: "축제 시작일 (형식: YYYYMMDD)" }
-  #     eddate: { type: "string", description: "축제 종료일 (형식: YYYYMMDD)" }
-  #     cpage: { type: "integer", description: "현재 페이지 번호", default: 1 }
-  #     rows: { type: "integer", description: "페이지 당 목록 수", default: 10 }
-  #     shprfnm: { type: "string", description: "조회할 축제명", optional: true }
-  #     signgucode: { type: "string", description: "지역(시도) 코드 (예: '11'은 서울)", optional: true }
+  - name: get_festival_list
+    description: "기간별, 조건별 축제 목록을 조회합니다."
+    props:
+      stdate: { type: "string", description: "축제 시작일 (형식: YYYYMMDD)" }
+      eddate: { type: "string", description: "축제 종료일 (형식: YYYYMMDD)" }
+      cpage: { type: "integer", description: "현재 페이지 번호", default: 1 }
+      rows: { type: "integer", description: "페이지 당 목록 수", default: 10 }
+      shprfnm: { type: "string", description: "조회할 축제명", optional: true }
+      signgucode: { type: "string", description: "지역(시도) 코드 (예: '11'은 서울)", optional: true }
