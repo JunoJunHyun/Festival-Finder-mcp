@@ -14,5 +14,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 6. 이 컨테이너가 실행될 때 최종적으로 실행할 명령어입니다.
-# FastMCP는 uvicorn으로 실행합니다.
-CMD ["uvicorn", "app:mcp.app", "--host", "0.0.0.0", "--port", os.environ.get("PORT", "8000")]
+# 쉘을 통해 $PORT 환경 변수를 uvicorn에 전달하는 방식으로 수정합니다.
+CMD ["sh", "-c", "uvicorn app:mcp.app --host 0.0.0.0 --port $PORT"]
