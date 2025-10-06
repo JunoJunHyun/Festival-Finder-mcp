@@ -13,8 +13,8 @@ authors = [
 description = "KOPIS API를 사용하여 공연 및 축제 정보를 제공하는 Festival Finder MCP입니다."
 requires-python = ">=3.8"
 dependencies = [
-    "flask",
+    "fastmcp>=2.0.0",
     "requests",
     "python-dotenv",
-    "gunicorn",
+    "uvicorn[standard]"
 ]
