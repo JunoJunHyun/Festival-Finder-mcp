@@ -1,3 +1,4 @@
+# app.py
 import os
 from typing import Optional
 from fastmcp import FastMCP
@@ -28,5 +29,5 @@ def get_performance_detail(performance_id: str):
     return core_logic.get_performance_detail(performance_id=performance_id)
 
 if __name__ == "__main__":
-    # FastMCP의 내장 서버 사용으로 uvicorn 충돌 방지
-    mcp.run(port=PORT, host="0.0.0.0")
+    # Smithery에서는 HTTP 모드로 실행해야 함
+    mcp.run(transport="streamable-http")  # 포트와 호스트는 별도 설정

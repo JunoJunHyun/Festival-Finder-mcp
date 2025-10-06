@@ -13,9 +13,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 5. 나머지 모든 프로젝트 코드를 복사합니다.
 COPY . .
 
-# 6. 이 컨테이너가 실행될 때 최종적으로 실행할 명령어입니다.
-# app.py 파일 안에 있는 'mcp'라는 변수를 실행하도록 정확히 지정합니다.
-#CMD ["uvicorn", "app:mcp", "--host", "0.0.0.0", "--port", "8000"]
-
-# 포트를 환경변수로 받도록 수정
+# 6. FastMCP의 내장 서버 사용 (uvicorn 직접 실행 대신)
 CMD ["python", "app.py"]
