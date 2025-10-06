@@ -14,6 +14,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 6. 이 컨테이너가 실행될 때 최종적으로 실행할 명령어입니다.
-# 쉘을 거치지 않고 직접 실행하여 인수 누락 문제를 해결합니다.
-# 포트는 app.py에서 환경 변수를 읽어 설정합니다.
-CMD ["uvicorn", "app:mcp.app", "--host", "0.0.0.0", "--port", "8000"]
+# app.py 파일 안에 있는 'mcp'라는 변수를 실행하도록 정확히 지정합니다.
+CMD ["uvicorn", "app:mcp", "--host", "0.0.0.0", "--port", "8000"]
