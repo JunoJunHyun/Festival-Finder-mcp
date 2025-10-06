@@ -11,7 +11,6 @@ build:
 # 3. 시작 명령어의 타입을 'http'로 명시
 startCommand:
   type: "http"
-  path: "/mcp"  # 경로 명시
   timeout: 300
 
 
