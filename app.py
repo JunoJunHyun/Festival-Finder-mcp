@@ -7,7 +7,12 @@ import core_logic
 # 환경변수에서 포트 설정
 PORT = int(os.environ.get("PORT", 8000))
 
-mcp = FastMCP("Festival Finder")
+# CORS와 함께 FastMCP 설정
+mcp = FastMCP(
+    "Festival Finder",
+    host="0.0.0.0",  # 모든 인터페이스에서 접근 가능
+    port=PORT
+)
 
 @mcp.tool()
 def get_performance_list(stdate: str, eddate: str, cpage: int = 1, rows: int = 10, shprfnm: Optional[str] = None, prfstate: Optional[str] = None, signgucode: Optional[str] = None):
@@ -29,5 +34,8 @@ def get_performance_detail(performance_id: str):
     return core_logic.get_performance_detail(performance_id=performance_id)
 
 if __name__ == "__main__":
-    # Smithery에서는 HTTP 모드로 실행해야 함
-    mcp.run(transport="streamable-http")  # 포트와 호스트는 별도 설정
+    # streamable-http 모드로 실행
+    mcp.run(
+        transport="streamable-http",
+        path="/mcp"  # Smithery는 /mcp 경로를 기대함
+    )
