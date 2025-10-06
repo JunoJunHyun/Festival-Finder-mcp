@@ -11,6 +11,7 @@ build:
 # 3. 시작 명령어의 타입을 'http'로 명시
 startCommand:
   type: "http"
+  timeout: 300  # 5분 타임아웃 설정
 
 # 4. Tool 목록에서 모든 주석(#)을 제거하여 3개의 도구를 모두 활성화
 tools:
