@@ -219,3 +219,5 @@ project_backup_*.tgz
 # OS / IDE
 .DS_Store
 .vscode/
+
+test.py
