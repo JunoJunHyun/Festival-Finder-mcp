@@ -5,8 +5,12 @@ import requests
 import xml.etree.ElementTree as ET
 
 load_dotenv()
+
 KOPIS_API_KEY = os.getenv("KOPIS_API_KEY")
-BASE_URL = "http://www.kopis.or.kr/openApi/restful"
+#BASE_URL = "http://www.kopis.or.kr/openApi/restful"
+# API 키가 없을 때 적절한 에러 처리
+if not KOPIS_API_KEY:
+    print("Warning: KOPIS_API_KEY not found in environment variables")
 
 def get_performance_list(stdate, eddate, **kwargs):
     """KOPIS API에서 공연 목록을 가져옵니다."""
