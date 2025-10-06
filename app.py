@@ -1,25 +1,27 @@
-# app.py (2단계 수정 확정본)
 import os
-from typing import Optional
+from typing import Annotated, Optional
+from pydantic import Field, BeforeValidator
+from dateutil import parser
 from fastmcp import FastMCP
 import core_logic
-from dateutil import parser
 
+# 날짜 자동 변환 함수와 타입 앨리어스
 
-def auto_format_date(date_str: str) -> str:
+def auto_format_date(v: str) -> str:
     try:
-        parsed_date = parser.parse(date_str)
-        return parsed_date.strftime("%Y%m%d")
+        return parser.parse(v).strftime("%Y%m%d")
     except Exception:
-        return str(date_str).replace("-", "").replace("/", "").replace(" ", "")
+        return str(v).replace("-", "").replace("/", "").replace(" ", "")
+
+DateStr = Annotated[str, BeforeValidator(auto_format_date), Field(description="날짜 (자동 변환됨)")]
 
 PORT = int(os.environ.get("PORT", 8000))
 mcp = FastMCP("Festival Finder")
 
 @mcp.tool()
 def get_performance_list(
-    stdate: str,
-    eddate: str,
+    stdate: DateStr,
+    eddate: DateStr,
     cpage: int = 1,
     rows: int = 10,
     shprfnm: Optional[str] = None,
@@ -27,11 +29,9 @@ def get_performance_list(
     signgucode: Optional[str] = None,
 ):
     """기간별, 조건별 공연 목록을 조회합니다."""
-    formatted_stdate = auto_format_date(stdate)
-    formatted_eddate = auto_format_date(eddate)
     return core_logic.get_performance_list(
-        stdate=formatted_stdate,
-        eddate=formatted_eddate,
+        stdate=stdate,
+        eddate=eddate,
         cpage=cpage,
         rows=rows,
         shprfnm=shprfnm,
@@ -41,19 +41,17 @@ def get_performance_list(
 
 @mcp.tool()
 def get_festival_list(
-    stdate: str,
-    eddate: str,
+    stdate: DateStr,
+    eddate: DateStr,
     cpage: int = 1,
     rows: int = 10,
     shprfnm: Optional[str] = None,
     signgucode: Optional[str] = None,
 ):
     """기간별, 조건별 축제 목록을 조회합니다."""
-    formatted_stdate = auto_format_date(stdate)
-    formatted_eddate = auto_format_date(eddate)
     return core_logic.get_festival_list(
-        stdate=formatted_stdate,
-        eddate=formatted_eddate,
+        stdate=stdate,
+        eddate=eddate,
         cpage=cpage,
         rows=rows,
         shprfnm=shprfnm,
